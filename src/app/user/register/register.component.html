@@ -1,0 +1,58 @@
+<form [formGroup]="registerForm">
+  <div class="flex justify-between w-full">
+    <span>
+      <label class="block mt-1 text-sm text-gray-200">First Name</label>
+      <app-input
+        placeholder="First Name"
+        minlength="3"
+        [control]="firstName"
+      ></app-input>
+    </span>
+    <span>
+      <label class="block mt-1 text-sm text-gray-200">Last Name</label>
+      <app-input
+        placeholder="Last Name"
+        minlength="3"
+        [control]="lastName"
+      ></app-input>
+    </span>
+  </div>
+  <div class="mt-3">
+    <label class="block mt-1 text-sm text-gray-200">Email Address</label>
+    <app-input
+      placeholder="Email Address"
+      [control]="email"
+      type="email"
+    ></app-input>
+    <label class="block mt-1 text-sm text-gray-200">Password</label>
+    <app-input
+      placeholder="Password"
+      [control]="password"
+      type="password"
+    ></app-input>
+    <label class="block mt-1 text-sm text-gray-200">Date of Birth</label>
+    <app-input
+      placeholder="Date of Birth"
+      [control]="dateOfBirth"
+      type="date"
+    ></app-input>
+    <label class="block mt-1 text-sm text-gray-200">Gender</label>
+    <select
+      formControlName="gender"
+      class="bg-zinc-800 border mt-2 border-sky-800 text-gray-100 text-sm rounded-sm focus:border-sky-800 block w-full p-2.5"
+    >
+      <option>Male</option>
+      <option>Female</option>
+    </select>
+    <p class="my-auto text-sm text-red-500 mt-2" *ngIf="response">
+      {{ response | async }}
+    </p>
+    <button
+      class="bg-sky-800 p-2 mt-3 w-full disabled:opacity-50 disabled:bg-zinc-600"
+      [disabled]="registerForm.invalid"
+      (click)="register()"
+    >
+      Submit
+    </button>
+  </div>
+</form>

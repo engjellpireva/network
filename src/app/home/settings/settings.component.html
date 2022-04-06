@@ -1,0 +1,224 @@
+<div class="text-white bg-black px-4 py-5">
+  <h1 class="font-bold text-2xl">Settings</h1>
+  <div class="mt-5">
+    <div class="bg-stone-900 border border-stone-800 px-3 py-2">
+      <h1>Where you logged in</h1>
+    </div>
+    <div>
+      <div class="flex justify-between border border-zinc-900 p-3">
+        <div class="flex justify-between space-x-5">
+          <fa-icon
+            *ngIf="deviceService.isDesktop"
+            size="lg"
+            [icon]="faDesktop"
+            class="my-auto"
+          ></fa-icon>
+          <fa-icon
+            *ngIf="deviceService.deviceType == 'mobile'"
+            size="lg"
+            [icon]="faMobile"
+            class="my-auto"
+          >
+          </fa-icon>
+
+          <fa-icon
+            *ngIf="deviceService.deviceType == 'tablet'"
+            size="lg"
+            [icon]="faTablet"
+            class="my-auto"
+          >
+          </fa-icon>
+          <span>
+            <h1 class="font-semibold">
+              {{ deviceService.os }} · {{ deviceService.os_version }}
+            </h1>
+            <p class="text-gray-500 text-sm">
+              {{ deviceService.browser }} {{ deviceService.browser_version }} ·
+              <span class="text-green-500 font-bold">Active Now</span>
+            </p>
+          </span>
+        </div>
+        <button
+          class="text-blue-500 font-semibold"
+          (click)="viewLogins = !viewLogins"
+        >
+          {{ viewLogins ? "Hide" : "View" }}
+        </button>
+      </div>
+      <div *ngIf="viewLogins">
+        <div
+          class="flex justify-between border border-zinc-900 p-3"
+          *ngFor="let login of user?.logins"
+        >
+          <div class="flex space-x-5">
+            <fa-icon
+              *ngIf="login.deviceType == 'desktop'"
+              size="lg"
+              [icon]="faDesktop"
+              class="my-auto"
+            ></fa-icon>
+
+            <fa-icon
+              *ngIf="login.deviceType == 'mobile'"
+              size="lg"
+              [icon]="faMobile"
+              class="my-auto"
+            >
+            </fa-icon>
+
+            <fa-icon
+              *ngIf="login.deviceType == 'tablet'"
+              size="lg"
+              [icon]="faTablet"
+              class="my-auto"
+            >
+            </fa-icon>
+            <span>
+              <h1 class="font-semibold">
+                {{ login.os }} · {{ login.osVersion }}
+              </h1>
+              <p class="text-gray-500 text-sm">
+                {{ login.browser }} {{ login.browserVersion }} ·
+                <span class="text-red-400 font-semibold">
+                  {{ login.createdAt | date: "medium" }}
+                </span>
+              </p>
+            </span>
+          </div>
+          <button
+            class="text-blue-500 font-semibold"
+            (click)="clearLogin(login.id)"
+          >
+            Clear
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <div class="bg-stone-900 border border-stone-800 px-3 py-2">
+      <h1>Login and Security</h1>
+    </div>
+    <div>
+      <div class="flex justify-between border border-zinc-900 p-3">
+        <div class="flex justify-between space-x-5">
+          <fa-icon class="my-auto" size="lg" [icon]="faShieldAlt"></fa-icon>
+
+          <span>
+            <h1 class="font-semibold">Password Changes</h1>
+            <p class="text-gray-500 text-sm">
+              View all password changes of your account
+            </p>
+          </span>
+        </div>
+        <button
+          class="text-blue-500 font-semibold"
+          (click)="viewPasswordChanges = !viewPasswordChanges"
+        >
+          {{ viewPasswordChanges ? "Hide" : "View" }}
+        </button>
+      </div>
+      <div *ngIf="viewPasswordChanges">
+        <span
+          class="flex space-x-5 border border-zinc-900 p-3"
+          *ngIf="!user?.passwordChanges.length"
+        >
+          <h1 class="text-red-400">
+            You have not changed your password on {{ user?.email }} yet.
+          </h1>
+        </span>
+        <div
+          class="flex space-x-5 border border-zinc-900 p-3"
+          *ngFor="let passwordChange of user?.passwordChanges"
+        >
+          <fa-icon size="lg" [icon]="faShieldAlt" class="my-auto"> </fa-icon>
+          <span>
+            <h1 class="font-semibold text-red-500">Password Changed</h1>
+            <p class="text-red-400 text-sm">
+              {{ passwordChange.createdAt | date: "full" }}
+            </p>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="border border-zinc-900 p-3">
+      <div class="flex justify-between">
+        <span class="flex space-x-5">
+          <fa-icon class="my-auto" [icon]="faKey" size="lg"></fa-icon>
+          <span>
+            <h1>Change password</h1>
+            <p class="text-gray-500 text-sm">
+              It's a good idea to use a strong password that you're not using
+              elsewhere
+            </p>
+          </span>
+        </span>
+        <button
+          class="text-blue-500 font-semibold bg-none"
+          (click)="changePassword = !changePassword"
+        >
+          Change
+        </button>
+      </div>
+
+      <form
+        *ngIf="changePassword"
+        [formGroup]="changePasswordForm"
+        class="mt-5 flex space-y-1 flex-col mx-auto"
+      >
+        <hr class="border-zinc-900" />
+        <label class="font-semibold text-white">Current</label>
+        <input
+          type="password"
+          class="bg-transparent border-2 border-zinc-900 p-1 outline-none"
+          placeholder="Current Password"
+          formControlName="currentPassword"
+        />
+
+        <label class="font-semibold text-white">New</label>
+        <input
+          type="password"
+          class="bg-transparent border-2 border-zinc-900 p-1 outline-none"
+          placeholder="New Password"
+          formControlName="newPassword"
+        />
+        <p
+          class="text-sm text-red-500 font-semibold"
+          *ngIf="newPassword.touched && newPassword.errors?.['pattern']"
+        >
+          Password must be at least 8 characters long, contain 1 uppercase
+          letter, 1 lowercase letter and 1 number.
+        </p>
+        <label class="font-semibold text-white">Confirm</label>
+        <input
+          type="password"
+          class="bg-transparent border-2 border-zinc-900 p-1 outline-none"
+          placeholder="Confirm New Password"
+          formControlName="confirmNewPassword"
+        />
+        <p
+          class="text-sm text-red-500 font-semibold"
+          *ngIf="
+            confirmNewPassword.touched &&
+            confirmNewPassword.value != newPassword.value
+          "
+        >
+          New password doesn't match the confirmation.
+        </p>
+
+        <button
+          type="submit"
+          class="bg-blue-500 p-1 mt-3 w-3/12 disabled:bg-zinc-500 disabled:bg-opacity-75"
+          [disabled]="
+            changePasswordForm.invalid ||
+            confirmNewPassword.value != newPassword.value
+          "
+          (click)="onChangePassword()"
+        >
+          Save Changes
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

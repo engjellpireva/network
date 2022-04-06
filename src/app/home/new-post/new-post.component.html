@@ -1,0 +1,77 @@
+<div>
+  <form [formGroup]="newPostForm" class="flex space-x-2">
+    <img
+      class="inline-block h-12 w-12 my-auto rounded-full"
+      src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+      alt=""
+    />
+    <p class="my-auto text-lg font-semibold">Engjell Pireva</p>
+  </form>
+  <div class="mt-5">
+    <textarea
+      [formControl]="description"
+      class="bg-transparent text-white w-full text-xl outline-none resize-none"
+      placeholder="What's on your mind?"
+    ></textarea>
+  </div>
+
+  <label
+    *ngIf="type == 'photo' && imageSrc"
+    class="border mt-5 h-52 border-zinc-700 flex rounded-lg hover:bg-zinc-600 hover:bg-opacity-75 cursor-pointer overflow-auto"
+    for="image"
+  >
+    <img
+      class="object-cover w-full overflow-auto hover:bg-zinc-600 hover:bg-opacity-75"
+      [src]="
+        imageSrc ||
+        'https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+      "
+    />
+    <span for="image" class="flex flex-col justify-center items-center">
+      <input
+        type="file"
+        (change)="onFileChange($event)"
+        class="hidden"
+        id="image"
+        type="file"
+      />
+    </span>
+  </label>
+
+  <label
+    *ngIf="type == 'photo' && !imageSrc"
+    class="border mt-5 h-52 border-zinc-700 flex justify-center items-center p-4 rounded-lg hover:bg-zinc-600 hover:bg-opacity-75 cursor-pointer"
+    for="image"
+  >
+    <span for="image" class="flex flex-col justify-center items-center">
+      <fa-icon [icon]="faFile" class="text-3xl text-white"></fa-icon>
+      <p class="font-bold text-md">Add Photos/Videos</p>
+      <p class="font-semibold text-center text-sm text-gray-500">
+        or drag & drop
+      </p>
+      <input
+        type="file"
+        (change)="onFileChange($event)"
+        class="hidden"
+        id="image"
+        type="file"
+      />
+    </span>
+  </label>
+  <div class="border border-zinc-700 mt-5 p-4 rounded-lg flex justify-between">
+    <p class="font-bold">Add to your post</p>
+    <fa-icon
+      size="lg"
+      class="text-green-500 cursor-pointer"
+      [icon]="faImages"
+      (click)="changeType('photo')"
+    ></fa-icon>
+  </div>
+  <button
+    class="w-full bg-blue-500 hover:bg-blue-600 transition duration-200 ease-in-out p-2 font-bold rounded-md mt-5 disabled:bg-zinc-600 disabled:bg-opacity-50"
+    [disabled]="newPostForm.invalid && !file"
+    (click)="createPost()"
+  >
+    Post
+  </button>
+</div>

@@ -1,0 +1,41 @@
+<div
+  id="defaultModal"
+  aria-hidden="true"
+  class="flex overflow-y-auto overflow-x-hidden fixed justify-center items-center h-full inset-0 bg-zinc-700 bg-opacity-25"
+  [class.hidden]="!modal.isModalOpen(modalID)"
+>
+  <div class="relative px-4 w-full max-w-xl md-auto">
+    <!-- Modal content -->
+    <div class="relative bg-neutral-900 rounded-md shadow-lg">
+      <!-- Modal header -->
+      <div
+        class="flex justify-between items-start px-5 py-3 rounded-t border-b border-zinc-700"
+      >
+        <p class="my-auto text-white font-bold text-xl">{{ title }}</p>
+        <button
+          type="button"
+          class="text-gray-400 bg-transparent rounded-full text-sm p-1.5 ml-auto inline-flex items-center hover:bg-zinc-700 hover:text-white"
+          data-modal-toggle="defaultModal"
+          (click)="modal.toggleModal(modalID)"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </button>
+      </div>
+      <!-- Modal body -->
+      <div class="p-6 space-y-6 text-white">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

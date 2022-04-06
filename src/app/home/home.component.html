@@ -1,0 +1,17 @@
+<div>
+  <app-navbar></app-navbar>
+  <div class="md:flex justify-between bg-zinc-900">
+    <!-- Col 1 -->
+    <div class="md:w-4/12">
+      <app-sidebar></app-sidebar>
+    </div>
+    <!-- Col 2 -->
+    <div class="w-full">
+      <app-dashboard *ngIf="this.router.url == '/'"></app-dashboard>
+      <app-settings *ngIf="this.router.url == '/settings'"></app-settings>
+    </div>
+
+    <!-- Col 3 -->
+    <p class="text-white w-4/12 px-4 mt-20">Hello World</p>
+  </div>
+</div>
